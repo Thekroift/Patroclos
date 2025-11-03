@@ -1,3 +1,4 @@
+
 import 'package:desarrollo_patroclos/pages_global/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class PatroclosApp extends StatelessWidget {
       title: 'Patroclos - Dashboard Usuario',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 222, 182, 113)),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 240, 217),),
         useMaterial3: true,
       ),
       home: const LoginPage(),

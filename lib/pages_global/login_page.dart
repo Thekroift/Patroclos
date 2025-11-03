@@ -1,3 +1,5 @@
+import 'package:desarrollo_patroclos/pages_admin/dashboard_admin.dart';
+import 'package:desarrollo_patroclos/pages_usuario/dashboard_usuario.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
 
   void _login() {
+
     if (!_acceptedTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Debes aceptar los términos y condiciones')),
@@ -23,8 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
     final user = _userController.text.trim();
     final pass = _passController.text.trim();
-
-    // 🔐 Aquí iría tu lógica de autenticación (consulta a tu API / base de datos)
+    
     if (user.isEmpty || pass.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Completa todos los campos')),
@@ -32,14 +34,27 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // Ejemplo de navegación dependiendo de rol
-    // if (rol == 'admin') { Navigator.pushReplacementNamed(context, '/admin'); }
-    // else if (rol == 'colaborador') { Navigator.pushReplacementNamed(context, '/colaborador'); }
-    // else { Navigator.pushReplacementNamed(context, '/usuario'); }
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('iniciando sesión')));
+    //Aquí iría la lógica de autenticación (consulta a base de datos)
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Inicio de sesión simulado ✅')),
-    );
+     //TODO:  navegación dependiendo de rol cambiar
+    if (user == 'admin') {
+            Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => DashboardAdmin(),
+          transitionDuration: const Duration(milliseconds: 0),
+        ),
+      ); }
+    else {
+            Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => DashboardPageUser(),
+          transitionDuration: const Duration(milliseconds: 0),
+        ),
+      );}
+
   }
 
   @override
@@ -47,34 +62,34 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Column(
         children: [
-          // 🟦 Parte superior con logo
+          // Parte superior -logo-
           Expanded(
             flex: 4,
             child: Container(
               width: double.infinity,
-              color: Colors.white,
+              color: Color.fromARGB(255, 246, 243, 234),
               child: Center(
-                //child: Image.asset('assets/logo.png',height: 140),
+                child: Image.asset('assets/logo_patroclos.png',height: 350),
               ),
             ),
           ),
-
-          // 🟩 Parte inferior con formulario
+          //Parte inferior -formulario-
           Expanded(
             flex: 6,
             child: Container(
               width: double.infinity,
-              color: Color.fromARGB(255, 222, 182, 113), // Color sólido corporativo
+              color: Color.fromARGB(255, 255, 240, 217),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width/2,
                         child: TextField(
                           controller: _userController,
+                          autofillHints: const [AutofillHints.username],
                           decoration: InputDecoration(
                             hintText: 'Usuario',
                             filled: true,
@@ -87,11 +102,12 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(height: 15),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width/2,
                         child: TextField(
                           controller: _passController,
                           obscureText: _obscureText,
+                          autofillHints: const [AutofillHints.password],
                           decoration: InputDecoration(
                             hintText: 'Contraseña',
                             filled: true,
@@ -114,9 +130,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-
-                      // ✅ Checkbox de términos
-                      Container(
+                      // Checkbox de términos y condiciones, redirigir a pagina con los terminos y condiciones correspondientes, proporcionados
+                      SizedBox(
                         width: MediaQuery.of(context).size.width/2,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -131,14 +146,10 @@ class _LoginPageState extends State<LoginPage> {
                                 activeColor: Colors.white,
                                 checkColor: Colors.blue,
                               ),
-                            const Text(
-                                      'Acepto los',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: const Text('Términos y Condiciones', style: TextStyle(color: Colors.white),),
-                                    ),
+                              TextButton(
+                              onPressed: () {},
+                              child: const Text('Acepto los Términos y Condiciones', style: TextStyle(color: Colors.black),),
+                              ),
                           ],
                         ),
                       ),
@@ -148,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            foregroundColor: const Color(0xFF1A237E),
+                            foregroundColor: Color.fromARGB(225, 255, 152, 0),
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -164,15 +175,16 @@ class _LoginPageState extends State<LoginPage> {
 
                       const SizedBox(height: 25),
 
-                      // 📞 Contacto
+                      // Contacto
                       GestureDetector(
                         onTap: () {
-                          // Abre WhatsApp, correo o tu formulario de contacto
+                          print("contacto");
+                          // Abrir WhatsApp o formulario/ correo
                         },
                         child: const Text(
-                          '¿Problemas para ingresar? Ponte en contacto con la empresa',
+                          '¿Problemas para ingresar? Ponte en contacto con nosotros',
                           style: TextStyle(
-                            color: Colors.white70,
+                            color: Colors.black54,
                             decoration: TextDecoration.underline,
                           ),
                           textAlign: TextAlign.center,
